@@ -142,6 +142,15 @@ section{padding-block:60px;border-top:1px solid var(--line)}
 /* credits */
 .credits{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .credits>*{min-width:0}
+.certs{grid-column:1/-1;display:grid;gap:14px}
+.certlist{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cert{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-radius:11px;border:1px solid var(--line);background:var(--bg);text-decoration:none;min-width:0}
+.cert:hover{border-color:var(--accent)}
+.cert>span:first-child{display:grid;gap:2px;min-width:0}
+.cert b{font-weight:600;font-size:15.5px}
+.cert small{color:var(--muted);font-size:13px}
+.cert .mono{color:var(--muted);flex:none}
+@media (max-width:600px){.certlist{grid-template-columns:1fr}}
 .kv{display:grid;grid-template-columns:96px 1fr;gap:12px 14px;font-size:15px;margin:0}
 .kv dt{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding-top:3px}
 .kv dd{margin:0}
@@ -378,6 +387,17 @@ footer{padding-block:28px 40px;color:var(--muted);font-size:13px;border-top:1px 
         <dt>Code</dt><dd>Python, PyTorch, Java, C++, JavaScript, Swift, React, Node.js, Electron, REST APIs</dd>
         <dt>Tools</dt><dd>Figma, Jira, Git &amp; GitHub, Excel, Google Sheets, Google Analytics, Adobe Creative Suite</dd>
       </dl>
+    </div>
+    <div class="panel certs">
+      <div class="eyebrow">Certifications</div>
+      <div class="certlist">
+        <a class="cert" href="https://skillshop.credential.net/be2c9f6f-aac0-43bc-8301-9cbed2a8c13c" target="_blank" rel="noopener">
+          <span><b>Google Analytics Certification</b><small>Google Skillshop</small></span><span class="mono">View ↗</span>
+        </a>
+        <a class="cert" href="https://www.credly.com/badges/da3ba153-d3f0-4bd1-b7bd-5e7d5e7543c7" target="_blank" rel="noopener">
+          <span><b>Getting Started with Generative AI</b><small>IBM SkillsBuild</small></span><span class="mono">View ↗</span>
+        </a>
+      </div>
     </div>
   </div>
 </div></section>
