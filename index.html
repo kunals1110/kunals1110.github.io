@@ -146,7 +146,9 @@ section{padding-block:60px;border-top:1px solid var(--line)}
 .certlist{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .cert{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-radius:11px;border:1px solid var(--line);background:var(--bg);text-decoration:none;min-width:0}
 .cert:hover{border-color:var(--accent)}
-.cert>span:first-child{display:grid;gap:2px;min-width:0}
+.cert>span:nth-child(2){display:grid;gap:2px;min-width:0;flex:1}
+.cicon{flex:none;width:42px;height:42px;border-radius:10px;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.cicon svg{width:22px;height:22px}
 .cert b{font-weight:600;font-size:15.5px}
 .cert small{color:var(--muted);font-size:13px}
 .cert .mono{color:var(--muted);flex:none}
@@ -392,10 +394,10 @@ footer{padding-block:28px 40px;color:var(--muted);font-size:13px;border-top:1px 
       <div class="eyebrow">Certifications</div>
       <div class="certlist">
         <a class="cert" href="https://skillshop.credential.net/be2c9f6f-aac0-43bc-8301-9cbed2a8c13c" target="_blank" rel="noopener">
-          <span><b>Google Analytics Certification</b><small>Google Skillshop</small></span><span class="mono">View ↗</span>
+          <span class="cicon" style="--c:var(--s3)" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 13.9 7 22l5-3 5 3-1.5-8.1"/><path d="m9.5 9 1.7 1.7L14.5 7.5"/></svg></span><span><b>Google Analytics Certification</b><small>Google Skillshop</small></span><span class="mono">View ↗</span>
         </a>
         <a class="cert" href="https://www.credly.com/badges/da3ba153-d3f0-4bd1-b7bd-5e7d5e7543c7" target="_blank" rel="noopener">
-          <span><b>Getting Started with Generative AI</b><small>IBM SkillsBuild</small></span><span class="mono">View ↗</span>
+          <span class="cicon" style="--c:var(--s1)" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 13.9 7 22l5-3 5 3-1.5-8.1"/><path d="m9.5 9 1.7 1.7L14.5 7.5"/></svg></span><span><b>Getting Started with Generative AI</b><small>IBM SkillsBuild</small></span><span class="mono">View ↗</span>
         </a>
       </div>
     </div>
