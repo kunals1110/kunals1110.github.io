@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Kunal Singh: product, code, and music. Based in Boston.">
+<meta property="og:title" content="Kunal Singh">
+<meta property="og:description" content="Product, code, and music. Based in Boston.">
+<meta property="og:image" content="kunal.jpg">
+<title>Kunal Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}html{scroll-behavior:smooth}
+/* Layout: the portfolio as a record release. Hero = artist + vinyl, work = a two-sided tracklist filtered by a stem mixer, about = liner-note credits. */
+:root{
+  --bg:#F1F2F6; --surface:#FFFFFF; --sunk:#E6E8EE; --ink:#13161D; --muted:#5A6170; --line:#D4D8E0;
+  --accent:#2448E8; --accent-ink:#FFFFFF; --vinyl:#17191F; --groove:#2A2D36;
+  --s1:#2448E8; --s2:#E0552C; --s3:#13A07B; --s4:#B9408F; --s5:#C99312; --s6:#5E6B82;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1016; --surface:#171A22; --sunk:#12141B; --ink:#E9ECF2; --muted:#9AA2B2; --line:#2A2F3B;
+  --accent:#7590FF; --accent-ink:#0E1016; --vinyl:#07080B; --groove:#1E2129;
+  --s1:#7590FF; --s2:#FF8A5E; --s3:#3CCFA2; --s4:#E777C2; --s5:#F0C046; --s6:#97A3BA; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1016; --surface:#171A22; --sunk:#12141B; --ink:#E9ECF2; --muted:#9AA2B2; --line:#2A2F3B;
+  --accent:#7590FF; --accent-ink:#0E1016; --vinyl:#07080B; --groove:#1E2129;
+  --s1:#7590FF; --s2:#FF8A5E; --s3:#3CCFA2; --s4:#E777C2; --s5:#F0C046; --s6:#97A3BA; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.02em}
+.eyebrow{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:22px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:-.01em;text-decoration:none}
+.top nav{display:flex;gap:18px;flex-wrap:wrap}
+.top nav a{text-decoration:none;color:var(--muted);font-size:14px}
+.top nav a:hover{color:var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-block:24px 64px}
+.hero>*{min-width:0}
+.hero h1{font-size:clamp(56px,9vw,112px);font-weight:800;line-height:.9;letter-spacing:-.04em;margin-top:14px}
+.lede{font-size:19px;color:var(--muted);max-width:36ch;margin:22px 0 26px}
+.lede b{color:var(--ink);font-weight:600}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:999px;font-weight:600;font-size:14.5px;text-decoration:none;border:1px solid var(--line);background:var(--surface)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.deck{display:grid;gap:16px;justify-items:end}
+.photo{margin:0;width:min(100%,380px);max-width:100%;display:grid;gap:10px}
+.photo img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 35%;border-radius:6px;box-shadow:0 30px 50px -30px rgba(10,14,30,.6)}
+.photo figcaption{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.record{position:relative;width:min(100%,380px);aspect-ratio:1/1;max-width:100%}
+.sleeve{position:absolute;inset:0 18% 0 0;border-radius:6px;background:var(--accent);color:var(--accent-ink);padding:22px;display:flex;flex-direction:column;justify-content:space-between;z-index:2;box-shadow:0 30px 50px -30px rgba(10,14,30,.6);overflow:hidden}
+.sleeve::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 22px,rgba(255,255,255,.07) 22px 23px)}
+.sleeve>*{position:relative}
+.sleeve .t{font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,38px);line-height:.95;letter-spacing:-.03em}
+.sleeve .m{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
+.disc{position:absolute;top:6%;right:0;width:88%;aspect-ratio:1/1;border-radius:50%;z-index:1;
+  background:radial-gradient(circle,var(--s5) 0 15%,var(--vinyl) 15.5% 17%,transparent 17.5%),
+  repeating-radial-gradient(circle,var(--vinyl) 0 2px,var(--groove) 2px 3px)}
+.disc::after{content:"KS";position:absolute;inset:0;display:grid;place-items:center;font:800 15px var(--display);color:var(--vinyl)}
+
+.player{width:min(100%,420px);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center}
+.player>div{min-width:0}
+.play{width:40px;height:40px;border-radius:50%;border:none;background:var(--ink);color:var(--bg);cursor:pointer;display:grid;place-items:center}
+.play svg{width:16px;height:16px;fill:currentColor}
+.np{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np b{font-weight:600}
+.prog{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;margin-top:4px}
+.prog .mono{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ptrack{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.ptrack b{display:block;height:100%;width:0;background:var(--accent)}
+
+/* sections */
+section{padding-block:60px;border-top:1px solid var(--line)}
+.shead{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+.shead h2{font-size:clamp(32px,4.6vw,48px);font-weight:700;letter-spacing:-.02em;line-height:1.02;margin-top:8px}
+.shead p{color:var(--muted);max-width:44ch;margin:0}
+
+/* mixer */
+.mixer{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:6px;display:grid;grid-template-columns:repeat(3,1fr)}
+.stem{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;min-width:0}
+.stem .nm{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;white-space:nowrap}
+.stem .sw{width:10px;height:10px;border-radius:3px;flex:none}
+.stem canvas{width:100%;height:26px;display:block;min-width:0}
+.stem.off canvas{opacity:.15}
+.stem.off .nm{color:var(--muted)}
+.btns{display:flex;gap:4px}
+.btns button{font:500 11.5px var(--mono);width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.btns button[aria-pressed="true"].m{background:var(--muted);color:var(--surface);border-color:var(--muted)}
+.btns button[aria-pressed="true"].s{background:var(--s5);color:#13161D;border-color:var(--s5)}
+.mixfoot{grid-column:1/-1;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:8px 10px 4px;color:var(--muted);border-top:1px solid var(--line);margin-top:4px}
+.mixfoot button{all:unset;cursor:pointer;color:var(--accent);font-weight:600;font-size:13px}
+
+/* tracklist */
+.side{margin-top:34px}
+.side h3{font-size:15px;font-family:var(--mono);font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}
+.track{display:grid;grid-template-columns:44px 1fr 150px;gap:16px;padding:20px 8px;border-bottom:1px solid var(--line);transition:opacity .25s,filter .25s;border-radius:8px}
+.track:hover{background:var(--surface)}
+.track.dim{opacity:.25;filter:grayscale(1)}
+.track>*{min-width:0}
+.no{font-family:var(--mono);color:var(--muted);font-size:14px;padding-top:4px;font-variant-numeric:tabular-nums}
+.ttl{font-family:var(--display);font-size:23px;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+.ttl a{text-decoration:none}
+.ttl a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.org{color:var(--muted);font-size:14px;margin-top:2px}
+.track ul{margin:10px 0 0;padding-left:18px;display:grid;gap:5px;font-size:15px;max-width:68ch}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.tag{font:500 11px var(--mono);padding:3px 8px;border-radius:6px;border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px}
+.tag i{width:7px;height:7px;border-radius:2px}
+.when{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-align:right;padding-top:5px}
+.stat{font-family:var(--display);font-weight:800;color:var(--accent)}
+.sub{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.sub span{font-size:13.5px;padding:4px 10px;border-radius:7px;background:var(--sunk)}
+.sub b{font-weight:600}
+
+/* artist side */
+.artist{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.artist>*{min-width:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.big{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.big div{display:grid;gap:2px}
+.big b{font-family:var(--display);font-size:clamp(30px,4vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.big span{color:var(--muted);font-size:13.5px}
+.rel{display:grid;gap:0;margin-top:18px}
+.rel div{display:grid;grid-template-columns:28px 1fr auto;gap:12px;padding:11px 0;border-top:1px solid var(--line);font-size:15px;align-items:center}
+.rel div>*{min-width:0}
+.rel .mono{color:var(--muted)}
+.artist p{margin:0 0 14px;color:var(--muted)}
+.artist ul{margin:0;padding-left:18px;display:grid;gap:8px}
+
+/* credits */
+.credits{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.credits>*{min-width:0}
+.kv{display:grid;grid-template-columns:96px 1fr;gap:12px 14px;font-size:15px;margin:0}
+.kv dt{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding-top:3px}
+.kv dd{margin:0}
+.panel h3{font-size:22px}
+.panel>p{margin:6px 0 18px;color:var(--muted)}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center}
+.contact>*{min-width:0}
+.contact h2{font-size:clamp(38px,6vw,64px);font-weight:800;letter-spacing:-.035em;line-height:.95}
+.links{display:grid;gap:10px}
+.lk{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-radius:11px;background:var(--surface);border:1px solid var(--line);text-decoration:none;min-width:0}
+.lk span{overflow-wrap:anywhere}
+.lk:hover{border-color:var(--accent)}
+.lk button{font:600 12px var(--body);padding:6px 10px;border-radius:7px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;flex:none}
+footer{padding-block:28px 40px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  .artist,.credits,.contact{grid-template-columns:1fr}
+  .hero{gap:24px;grid-template-columns:1.2fr .8fr}
+  .mixer{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  .hero{grid-template-columns:1fr}
+  .deck{justify-items:center}
+  .mixer{grid-template-columns:1fr}
+  .track{grid-template-columns:30px 1fr;gap:10px}
+  .when{grid-column:2;grid-row:1;text-align:left;padding-top:0;order:-1}
+  .track .body{grid-column:2}
+  .track .no{grid-row:1/span 2}
+  .big{grid-template-columns:1fr 1fr 1fr;gap:8px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.disc{animation:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#">kunal singh</a>
+    <nav aria-label="Sections">
+      <a href="#work">Tracklist</a><a href="#music">Music</a><a href="#credits">Credits</a><a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Product · Engineering · Music</div>
+      <h1>Kunal Singh</h1>
+      <p class="lede">Product, code, and music. Based in Boston.</p>
+      <div class="cta">
+        <a class="btn primary" href="#work">See the tracklist</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="deck" id="deck">
+      <figure class="photo">
+        <img src="kunal.jpg" width="611" height="777" alt="Kunal Singh standing on a subway platform as a green train passes">
+        <figcaption><span>Kunal Singh</span><span>Boston, MA</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<section id="work"><div class="wrap">
+  <div class="shead">
+    <div><div class="eyebrow">Tracklist</div><h2>Projects &amp; experience</h2></div>
+    <p>Every track is split into six stems. Solo one to see only that side of my work, or mute what you don't need.</p>
+  </div>
+
+  <div class="mixer" id="mixer"></div>
+
+  <div class="side">
+    <h3><span>Side A · Projects</span><span>3 tracks</span></h3>
+
+    <article class="track" data-t="eng ai music product" data-name="SUFOLI">
+      <div class="no">01</div>
+      <div class="body">
+        <div class="ttl"><a href="https://github.com/SUFOLI" target="_blank" rel="noopener">SUFOLI</a></div>
+        <div class="org">Local AI &amp; file tools for macOS · Electron, Node.js, Swift, Python, PyTorch, FFmpeg</div>
+        <ul>
+          <li>Drag-and-drop macOS apps that process files on the device. Leading a private beta to refine features before launch.</li>
+          <li><a href="https://github.com/SUFOLI/dragify" target="_blank" rel="noopener"><b>Dragify</b></a>: on-device converter for 35+ formats. Surveyed testers and shipped Best / Balanced / Small presets after 3 asked for size control.</li>
+          <li><a href="https://github.com/SUFOLI/stemify" target="_blank" rel="noopener"><b>Stemify</b></a>: splits any song into 6 stems offline with Meta's Demucs. Cut processing from <span class="stat">35s to 15s</span> per song.</li>
+        </ul>
+        <div class="tags" data-tags></div>
+      </div>
+      <div class="when">Aug 2026 – Now</div>
+    </article>
+
+    <article class="track" data-t="ai eng product" data-name="Postmark">
+      <div class="no">02</div>
+      <div class="body">
+        <div class="ttl"><a href="https://github.com/fengjason332-alt/postmark" target="_blank" rel="noopener">Postmark</a></div>
+        <div class="org">Private travel journal globe · DS+X Hackathon 2026 · Python, CLIP, GeoNames, JavaScript</div>
+        <ul>
+          <li>Co-built an on-device app with a team of 3 that turns a camera roll's photo metadata into past trips on a 3D globe.</li>
+          <li>Owned validation and contributed across the trip-detection backend and the globe frontend.</li>
+          <li>Scored trip detection with precision, recall, and F1 against a baseline, and built GPS gap-filling that recovered <span class="stat">91%</span> of hidden locations at ~2 m median error, with no photo uploads.</li>
+        </ul>
+        <div class="sub"><span><b>91%</b> locations recovered</span><span><b>~2 m</b> median error</span><span><b>0</b> uploads</span></div>
+        <div class="tags" data-tags></div>
+      </div>
+      <div class="when">Oct 2026</div>
+    </article>
+
+    <article class="track" data-t="design biz eng" data-name="Web Design Outreach">
+      <div class="no">03</div>
+      <div class="body">
+        <div class="ttl">Web Design Outreach</div>
+        <div class="org">Independent · HTML, CSS, React, Wix</div>
+        <ul>
+          <li>Pitched 5+ small organizations, scoped their needs, and signed <b>3 clients</b>.</li>
+          <li>Delivered 2 sites, including <a href="https://www.helpingharmony.org" target="_blank" rel="noopener">Helping Harmony</a>, so students find program info and apply faster.</li>
+          <li>Moved one site to Wix so non-technical members can update it themselves.</li>
+        </ul>
+        <div class="tags" data-tags></div>
+      </div>
+      <div class="when">Sep 2025 – Aug 2026</div>
+    </article>
+  </div>
+
+  <div class="side">
+    <h3><span>Side B · Experience</span><span>4 tracks</span></h3>
+
+    <article class="track" data-t="product design" data-name="GroupTrack">
+      <div class="no">04</div>
+      <div class="body">
+        <div class="ttl">GroupTrack</div>
+        <div class="org">BU Product Management Ready · Team Member · team of 4</div>
+        <ul>
+          <li>Prototype app that brings accountability to student group projects, with peer-rating badges whose stars carry into new groups.</li>
+          <li>Interviewed 10 club members to validate pain points around miscommunication, then added a materials page linking every project file.</li>
+          <li>Turned research into a ranked feature list through weekly sprints.</li>
+        </ul>
+        <div class="tags" data-tags></div>
+      </div>
+      <div class="when">Sep 2025 – Now</div>
+    </article>
+
+    <article class="track" data-t="music biz product" data-name="Artist Manager">
+      <div class="no">05</div>
+      <div class="body">
+        <div class="ttl"><a href="https://open.spotify.com/artist/6xAk05yujbnN3UCMq1rfHE" target="_blank" rel="noopener">Artist Manager &amp; Content Creator</a></div>
+        <div class="org">Independent · Boston (hybrid)</div>
+        <ul>
+          <li>Launched 3 tracks since Feb 2026 using Spotify for Artists data; one landed on an <b>algorithmic playlist</b>.</li>
+          <li>Found peak posting windows from performance data, driving <span class="stat">15K+</span> Instagram views on timed teasers.</li>
+          <li>A/B tested cover art and footage per song and picked finals on engagement.</li>
+        </ul>
+        <div class="tags" data-tags></div>
+      </div>
+      <div class="when">Dec 2025 – Now</div>
+    </article>
+
+    <article class="track" data-t="eng" data-name="Hack4Impact">
+      <div class="no">06</div>
+      <div class="body">
+        <div class="ttl">Hack4Impact</div>
+        <div class="org">Technical Fellow · Boston</div>
+        <ul>
+          <li>Built an interactive React questionnaire with Tailwind, React Router, and a dynamic question flow.</li>
+          <li>Shipped mini projects through a Git workflow, connecting apps to databases from the terminal.</li>
+        </ul>
+        <div class="tags" data-tags></div>
+      </div>
+      <div class="when">Jan 2025 – Now</div>
+    </article>
+
+    <article class="track" data-t="biz music" data-name="Bright Star Productions">
+      <div class="no">07</div>
+      <div class="body">
+        <div class="ttl">Bright Star Productions</div>
+        <div class="org">Associate &amp; Website Director · Somerset, NJ</div>
+        <ul>
+          <li>Set tiered seating prices for 5 events from audience, demand, and venue research, with early-bird discounts tuned on day-of sales.</li>
+          <li>Moved ticketing from Eventbrite to Ticketmaster as demand grew; biggest show sold <span class="stat">1,000+</span> tickets.</li>
+          <li>Secured sponsorships from 5+ local businesses.</li>
+        </ul>
+        <div class="tags" data-tags></div>
+      </div>
+      <div class="when">Nov 2023 – Sep 2025</div>
+    </article>
+  </div>
+</div></section>
+
+<section id="music"><div class="wrap">
+  <div class="shead">
+    <div><div class="eyebrow">The artist side</div><h2>I treat every release like a launch</h2></div>
+    <div style="display:grid;gap:14px;justify-items:start;max-width:44ch">
+      <p style="margin:0;color:var(--muted)">Managing an independent artist is product work with a beat: ship, read the data, iterate.</p>
+      <a class="btn primary" href="https://open.spotify.com/artist/6xAk05yujbnN3UCMq1rfHE" target="_blank" rel="noopener">Listen on Spotify <span class="mono">↗</span></a>
+    </div>
+  </div>
+  <div class="artist">
+    <div class="panel">
+      <div class="big">
+        <div><b>3</b><span>tracks released</span></div>
+        <div><b>15K+</b><span>Instagram views</span></div>
+        <div><b>1</b><span>algorithmic playlist</span></div>
+      </div>
+      <div class="rel">
+        <div><span class="mono">01</span><span>Release planning from Spotify for Artists data</span><span class="mono">Feb 2026</span></div>
+        <div><span class="mono">02</span><span>Teasers timed to peak posting windows</span><span class="mono">Ongoing</span></div>
+        <div><span class="mono">03</span><span>Cover art and footage A/B tested per song</span><span class="mono">Per release</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <p>The same loop shows up across my work:</p>
+      <ul>
+        <li><b>Stemify</b> came from wanting to pull songs apart for remixes and teasers.</li>
+        <li><b>Bright Star Productions</b> taught me pricing, demand, and sponsorships for live shows.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section id="credits"><div class="wrap">
+  <div class="shead"><div><div class="eyebrow">Liner notes</div><h2>Credits</h2></div></div>
+  <div class="credits">
+    <div class="panel">
+      <h3>Boston University</h3>
+      <p>B.A. Computer Science &amp; Economics, minor in Business Administration. Expected May 2028.</p>
+      <dl class="kv">
+        <dt>Courses</dt><dd>Business Management &amp; Strategy, Algorithms, Data Structures, AI Safety, Probability</dd>
+        <dt>Speaks</dt><dd>English, Hindi</dd>
+      </dl>
+    </div>
+    <div class="panel">
+      <dl class="kv">
+        <dt>Product</dt><dd>User research, discovery, roadmapping, MVP scoping, prioritization, cross-functional work</dd>
+        <dt>Code</dt><dd>Python, PyTorch, Java, C++, JavaScript, Swift, React, Node.js, Electron, REST APIs</dd>
+        <dt>Tools</dt><dd>Figma, Jira, Git &amp; GitHub, Excel, Google Sheets, Google Analytics, Adobe Creative Suite</dd>
+      </dl>
+    </div>
+  </div>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <div class="contact">
+    <div>
+      <div class="eyebrow">Contact</div>
+      <h2 style="margin-top:12px">Let's make something together.</h2>
+    </div>
+    <div class="links">
+      <div class="lk"><span id="email">kunalsinghs1110@gmail.com</span><button type="button" id="copy">Copy</button></div>
+      <a class="lk" href="https://www.linkedin.com/in/kunal-singh06/" target="_blank" rel="noopener"><span>linkedin.com/in/kunal-singh06</span><span class="mono">↗</span></a>
+      <a class="lk" href="https://github.com/kunals1110" target="_blank" rel="noopener"><span>github.com/kunals1110</span><span class="mono">↗</span></a>
+    </div>
+  </div>
+</div></section>
+
+<div class="wrap"><footer><span>Kunal Singh · Boston, MA</span><span class="mono">7 tracks · 2023 – now</span></footer></div>
+
+<script>
+(function(){
+  var STEMS=[
+    {k:"product",n:"Product",c:"--s1"},
+    {k:"eng",n:"Engineering",c:"--s6"},
+    {k:"ai",n:"AI / ML",c:"--s3"},
+    {k:"music",n:"Music",c:"--s4"},
+    {k:"design",n:"Design",c:"--s2"},
+    {k:"biz",n:"Business",c:"--s5"}
+  ];
+  var state={mute:{},solo:null};
+  var mixer=document.getElementById('mixer');
+  var tracks=[].slice.call(document.querySelectorAll('.track'));
+
+  STEMS.forEach(function(s){
+    var row=document.createElement('div');row.className='stem';row.dataset.k=s.k;
+    row.innerHTML='<div class="nm"><span class="sw" style="background:var('+s.c+')"></span>'+s.n+'</div>'+
+      '<canvas aria-hidden="true"></canvas>'+
+      '<div class="btns"><button class="m" aria-pressed="false" aria-label="Mute '+s.n+'">M</button><button class="s" aria-pressed="false" aria-label="Solo '+s.n+'">S</button></div>';
+    mixer.appendChild(row);
+    row.querySelector('.m').onclick=function(){state.mute[s.k]=!state.mute[s.k];if(state.solo===s.k)state.solo=null;apply();};
+    row.querySelector('.s').onclick=function(){state.solo=state.solo===s.k?null:s.k;state.mute[s.k]=false;apply();};
+  });
+  var foot=document.createElement('div');foot.className='mixfoot';
+  foot.innerHTML='<span class="mono" id="count"></span><button type="button" id="reset">Reset mix</button>';
+  mixer.appendChild(foot);
+  document.getElementById('reset').onclick=function(){state={mute:{},solo:null};apply();};
+
+  tracks.forEach(function(c){
+    var box=c.querySelector('[data-tags]');
+    c.dataset.t.split(' ').forEach(function(k){var s=STEMS.filter(function(x){return x.k===k})[0];
+      var el=document.createElement('span');el.className='tag';el.innerHTML='<i style="background:var('+s.c+')"></i>'+s.n;box.appendChild(el);});
+  });
+
+  function active(k){return state.solo?state.solo===k:!state.mute[k];}
+  function apply(){
+    [].forEach.call(mixer.querySelectorAll('.stem'),function(r){
+      var k=r.dataset.k;r.classList.toggle('off',!active(k));
+      r.querySelector('.m').setAttribute('aria-pressed',!!state.mute[k]);
+      r.querySelector('.s').setAttribute('aria-pressed',state.solo===k);
+    });
+    var shown=0;
+    tracks.forEach(function(c){
+      var t=c.dataset.t.split(' ');
+      var on=state.solo?t.indexOf(state.solo)>-1:t.some(function(k){return !state.mute[k]});
+      c.classList.toggle('dim',!on);if(on)shown++;
+    });
+    document.getElementById('count').textContent=shown+' of '+tracks.length+' tracks shown';
+  }
+
+  function rng(seed){return function(){seed=(seed*16807)%2147483647;return seed/2147483647;}}
+  function draw(){
+    var cs=getComputedStyle(document.documentElement);
+    [].forEach.call(mixer.querySelectorAll('.stem'),function(r,i){
+      var cv=r.querySelector('canvas');var w=cv.clientWidth,h=cv.clientHeight;if(!w)return;
+      var d=window.devicePixelRatio||1;cv.width=w*d;cv.height=h*d;var x=cv.getContext('2d');x.scale(d,d);
+      x.fillStyle=cs.getPropertyValue(STEMS[i].c).trim();
+      var r2=rng(97+i*131),n=Math.floor(w/4);
+      for(var j=0;j<n;j++){
+        var env=0.35+0.65*Math.abs(Math.sin(j/(5+i*2)+i))*(0.6+0.4*Math.sin(j/23+i*3));
+        var bh=Math.max(.1,env*(0.45+0.55*r2()))*h;
+        x.fillRect(j*4,(h-bh)/2,2.4,bh);
+      }
+    });
+  }
+  apply();draw();
+  window.addEventListener('resize',draw);
+  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);}catch(e){}
+  new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+  document.getElementById('copy').onclick=function(){
+    var b=this,t=document.getElementById('email').textContent;
+    function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('email'));var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected';}
+    try{navigator.clipboard.writeText(t).then(function(){b.textContent='Copied'},sel)}catch(e){sel()}
+    setTimeout(function(){b.textContent='Copy'},1800);
+  };
+})();
+</script>
+
+</body>
+</html>
