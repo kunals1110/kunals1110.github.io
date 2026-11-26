@@ -103,7 +103,8 @@ section{padding-block:60px;border-top:1px solid var(--line)}
 .mixfoot button{all:unset;cursor:pointer;color:var(--accent);font-weight:600;font-size:13px}
 
 /* tracklist */
-.side{margin-top:34px}
+.side{margin-top:10px}
+.side+.side{margin-top:40px}
 .side h3{font-size:15px;font-family:var(--mono);font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding-bottom:10px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}
 .track{display:grid;grid-template-columns:44px 1fr 150px;gap:16px;padding:20px 8px;border-bottom:1px solid var(--line);transition:opacity .25s,filter .25s;border-radius:8px}
 .track:hover{background:var(--surface)}
@@ -136,6 +137,13 @@ section{padding-block:60px;border-top:1px solid var(--line)}
 .demo:hover .playbtn{transform:scale(1.08)}
 .demolabel{position:absolute;left:12px;bottom:12px;font:500 12px var(--mono);color:#fff;background:rgba(10,12,40,.7);padding:5px 9px;border-radius:6px}
 .demo iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.soundbtn{cursor:pointer;color:var(--ink);font:inherit;font-weight:600;font-size:14.5px}
+.soundbtn svg{width:18px;height:18px;fill:currentColor}
+.soundbtn .w{opacity:.35}
+.soundbtn[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.soundbtn[aria-pressed="true"] .w{opacity:1}
+.soundbtn.nudge{animation:nudge .5s}
+@keyframes nudge{20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
 /* releases */
 .releases{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
 .rlz{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit;min-width:0;overflow:hidden;transition:border-color .3s}
@@ -310,13 +318,12 @@ body.intro-on{overflow:hidden}
 <section id="work"><div class="wrap">
   <div class="shead">
     <div><h2>Projects &amp; experience</h2></div>
-    <p>Every track is split into six stems. Solo one to see only that side of my work, or mute what you don't need.</p>
   </div>
 
-  <div class="mixer" id="mixer"></div>
+  <div class="mixer" id="mixer" hidden></div>
 
   <div class="side">
-    <h3><span>Side A · Projects</span><span>3 tracks</span></h3>
+    <h3>Projects</h3>
 
     <article class="track" data-t="eng ai music product" data-name="SUFOLI">
       <div class="no">01</div>
@@ -370,7 +377,7 @@ body.intro-on{overflow:hidden}
   </div>
 
   <div class="side">
-    <h3><span>Side B · Experience</span><span>4 tracks</span></h3>
+    <h3>Experience</h3>
 
     <article class="track" data-t="ai product biz" data-name="AI Attributability Research">
       <div class="no">04</div>
@@ -434,8 +441,11 @@ body.intro-on{overflow:hidden}
   <div class="shead">
     <div><div class="eyebrow">The creative side</div><h2>Music, the thing I make for fun</h2></div>
     <div style="display:grid;gap:14px;justify-items:start;max-width:44ch">
-      <p style="margin:0;color:var(--muted)">Outside of building things, I make music as kunal. It's the part of my life I'd do even if no one was watching, from the songs to the cover art to the little teasers. Hover a cover to hear a bit.</p>
-      <a class="btn primary" href="https://open.spotify.com/artist/6xAk05yujbnN3UCMq1rfHE" target="_blank" rel="noopener">Listen on Spotify <span class="mono">↗</span></a>
+      <p style="margin:0;color:var(--muted)">Outside of building things, I make music as kunal. It's the part of my life I'd do even if no one was watching, from the songs to the cover art to the little teasers. Turn on previews, then hover a cover to hear a bit.</p>
+      <div class="cta">
+        <button type="button" class="btn soundbtn" id="soundbtn" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path class="w" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Turn on previews</span></button>
+        <a class="btn primary" href="https://open.spotify.com/artist/6xAk05yujbnN3UCMq1rfHE" target="_blank" rel="noopener">Listen on Spotify <span class="mono">↗</span></a>
+      </div>
     </div>
   </div>
   <div class="releases" id="releases">
@@ -443,7 +453,7 @@ body.intro-on{overflow:hidden}
       <div class="stage"><div class="vinyl"></div><div class="cover"><img src="https://imagestore.ffm.to/link/61812daf250000e677afe7f2/6a60336241000030007a9f02_2ab857d239e33c7db06acd9af92199c8.jpeg" alt="Leaving Me Out cover art" loading="lazy" width="600" height="600"></div></div>
       <div class="pbar"><b></b></div>
       <div class="rmeta">
-        <div><div class="rstate">Hover to preview</div><h3>Leaving Me Out</h3><span class="mono">kunal · Single · 3:34</span></div>
+        <div><div class="rstate">Loading preview</div><h3>Leaving Me Out</h3><span class="mono">kunal · Single · 3:34</span></div>
         <span class="listen"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Listen ↗</span>
       </div>
     </a>
@@ -451,7 +461,7 @@ body.intro-on{overflow:hidden}
       <div class="stage"><div class="vinyl"></div><div class="cover"><img src="https://imagestore.ffm.to/link/61812daf250000e677afe7f2/69cd96384100004b00291cc0_173f6b51d485555f5c909ec0df6071d8.jpeg" alt="See You cover art" loading="lazy" width="600" height="600"></div></div>
       <div class="pbar"><b></b></div>
       <div class="rmeta">
-        <div><div class="rstate">Hover to preview</div><h3>See You</h3><span class="mono">kunal · Single</span></div>
+        <div><div class="rstate">Loading preview</div><h3>See You</h3><span class="mono">kunal · Single</span></div>
         <span class="listen"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Listen ↗</span>
       </div>
     </a>
@@ -627,13 +637,24 @@ body.intro-on{overflow:hidden}
 (function(){
   var cards=[].slice.call(document.querySelectorAll('.rlz'));
   var hoverable=false;try{hoverable=matchMedia('(hover: hover)').matches}catch(e){}
-  var audio=new Audio();audio.preload='none';var cur=null,fadeT=null;
+  var audio=new Audio();audio.preload='none';var cur=null,fadeT=null,unlocked=false;
+  var sb=document.getElementById('soundbtn');
+  function setUnlocked(){unlocked=true;sb.setAttribute('aria-pressed','true');sb.querySelector('span').textContent='Previews on';cards.forEach(function(c){if(c.dataset.preview)c.querySelector('.rstate').textContent='Hover to preview';});}
+  function unlock(){
+    if(unlocked){unlocked=false;sb.setAttribute('aria-pressed','false');sb.querySelector('span').textContent='Turn on previews';if(cur)stop(cur);return;}
+    setUnlocked();
+    // prime the audio element inside this click so Safari allows later hover playback
+    var first=cards.filter(function(c){return c.dataset.preview})[0];
+    if(first&&!audio.src){audio.src=first.dataset.preview;}
+    if(audio.src){audio.muted=true;var p=audio.play();var done=function(){if(!cur)audio.pause();audio.muted=false;};if(p&&p.then)p.then(done,done);else done();}
+  }
+  sb.addEventListener('click',unlock);
   // Fetch 30-second previews and backup artwork from Apple's public lookup (JSONP, runs in the visitor's browser)
   cards.forEach(function(c,i){
     var cb='__rlz'+i;window[cb]=function(d){
       var r=(d&&d.results||[]).filter(function(x){return x.wrapperType==='track'&&x.previewUrl})[0]
         ||(d&&d.results||[]).filter(function(x){return x.previewUrl})[0];
-      if(r&&r.previewUrl)c.dataset.preview=r.previewUrl;
+      if(r&&r.previewUrl){c.dataset.preview=r.previewUrl;if(hoverable)c.querySelector('.rstate').textContent=unlocked?'Hover to preview':'Turn on previews to hear it';}
       var art=(d&&d.results||[]).filter(function(x){return x.artworkUrl100})[0];
       if(art)c.dataset.art=art.artworkUrl100.replace('100x100bb','600x600bb');
       if(!c.dataset.preview)c.querySelector('.rstate').textContent=hoverable?'Click to listen':'Tap to listen';
@@ -653,17 +674,18 @@ body.intro-on{overflow:hidden}
   },40);}
   function stop(c){
     c.classList.remove('on');c.querySelector('.vinyl').classList.remove('spin');c.querySelector('.pbar b').style.width='0';
-    c.querySelector('.rstate').textContent=c.dataset.preview?'Hover to preview':'Click to listen';
+    c.querySelector('.rstate').textContent=c.dataset.preview?(unlocked?'Hover to preview':'Turn on previews to hear it'):'Click to listen';
     if(cur===c){fade(0,function(){audio.pause()});cur=null;}
   }
   function start(c){
     if(!hoverable||!c.dataset.preview)return;
+    if(!unlocked){c.querySelector('.rstate').textContent='Turn on previews first';sb.classList.add('nudge');setTimeout(function(){sb.classList.remove('nudge')},700);return;}
     if(cur&&cur!==c)stop(cur);
     cur=c;c.classList.add('on');c.querySelector('.vinyl').classList.add('spin');
     c.querySelector('.rstate').textContent='Now previewing';
     if(audio.src!==c.dataset.preview){audio.src=c.dataset.preview;audio.currentTime=0;}
     audio.volume=0;
-    var p=audio.play();if(p&&p.catch)p.catch(function(){c.querySelector('.rstate').textContent='Click anywhere, then hover to preview';});
+    var p=audio.play();if(p&&p.catch)p.catch(function(){c.querySelector('.rstate').textContent='Turn on previews first';unlocked=false;sb.setAttribute('aria-pressed','false');sb.querySelector('span').textContent='Turn on previews';});
     fade(.8);
   }
   cards.forEach(function(c){
