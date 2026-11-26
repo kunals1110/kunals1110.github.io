@@ -543,7 +543,7 @@ body.intro-on{overflow:hidden}
       var el=document.createElement('span');el.className='tag';el.innerHTML='<i style="background:var('+s.c+')"></i>'+s.n;box.appendChild(el);});
   });
 
-  function active(k){return state.solo?state.solo===k:!state.mute[k];}
+  function active(k){return !state.mute[k]&&(!state.solo||state.solo===k);}
   function apply(){
     [].forEach.call(mixer.querySelectorAll('.stem'),function(r){
       var k=r.dataset.k;r.classList.toggle('off',!active(k));
@@ -553,7 +553,7 @@ body.intro-on{overflow:hidden}
     var shown=0;
     tracks.forEach(function(c){
       var t=c.dataset.t.split(' ');
-      var on=state.solo?t.indexOf(state.solo)>-1:t.some(function(k){return !state.mute[k]});
+      var on=(!state.solo||t.indexOf(state.solo)>-1)&&!t.some(function(k){return state.mute[k]});
       c.classList.toggle('dim',!on);if(on)shown++;
     });
     document.getElementById('count').textContent=shown+' of '+tracks.length+' tracks shown';
