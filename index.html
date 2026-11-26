@@ -12,23 +12,23 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}html{scroll-behavior:smooth}
-/* Layout: the portfolio as a record release. Hero = artist + vinyl, work = a two-sided tracklist filtered by a stem mixer, about = liner-note credits. */
+/* Layout: a spinning-planet landing screen opens onto the portfolio as a record release. Hero = artist + photo, work = a two-sided tracklist filtered by a stem mixer, about = liner-note credits. */
 :root{
-  --bg:#F1F2F6; --surface:#FFFFFF; --sunk:#E6E8EE; --ink:#13161D; --muted:#5A6170; --line:#D4D8E0;
-  --accent:#2448E8; --accent-ink:#FFFFFF; --vinyl:#17191F; --groove:#2A2D36;
-  --s1:#2448E8; --s2:#E0552C; --s3:#13A07B; --s4:#B9408F; --s5:#C99312; --s6:#5E6B82;
+  --bg:#EEF0FA; --surface:#FFFFFF; --sunk:#E2E5F5; --ink:#10132B; --muted:#565D7B; --line:#D1D5EA;
+  --accent:#2630C4; --accent-ink:#FFFFFF; --space:#0D1066; --space-2:#1A2692;
+  --s1:#2630C4; --s2:#E0552C; --s3:#13A07B; --s4:#B9408F; --s5:#C99312; --s6:#5E6B8F;
   --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
   --body:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0E1016; --surface:#171A22; --sunk:#12141B; --ink:#E9ECF2; --muted:#9AA2B2; --line:#2A2F3B;
-  --accent:#7590FF; --accent-ink:#0E1016; --vinyl:#07080B; --groove:#1E2129;
-  --s1:#7590FF; --s2:#FF8A5E; --s3:#3CCFA2; --s4:#E777C2; --s5:#F0C046; --s6:#97A3BA; color-scheme:dark}}
+  --bg:#090B24; --surface:#111439; --sunk:#0C0F2E; --ink:#E8EAF8; --muted:#9EA4C8; --line:#242959;
+  --accent:#7F88FF; --accent-ink:#090B24;
+  --s1:#7F88FF; --s2:#FF8A5E; --s3:#3CCFA2; --s4:#E777C2; --s5:#F0C046; --s6:#A0A8CC; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0E1016; --surface:#171A22; --sunk:#12141B; --ink:#E9ECF2; --muted:#9AA2B2; --line:#2A2F3B;
-  --accent:#7590FF; --accent-ink:#0E1016; --vinyl:#07080B; --groove:#1E2129;
-  --s1:#7590FF; --s2:#FF8A5E; --s3:#3CCFA2; --s4:#E777C2; --s5:#F0C046; --s6:#97A3BA; color-scheme:dark}
+  --bg:#090B24; --surface:#111439; --sunk:#0C0F2E; --ink:#E8EAF8; --muted:#9EA4C8; --line:#242959;
+  --accent:#7F88FF; --accent-ink:#090B24;
+  --s1:#7F88FF; --s2:#FF8A5E; --s3:#3CCFA2; --s4:#E777C2; --s5:#F0C046; --s6:#A0A8CC; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
@@ -185,15 +185,64 @@ footer{padding-block:28px 40px;color:var(--muted);font-size:13px;border-top:1px 
   .track .no{grid-row:1/span 2}
   .big{grid-template-columns:1fr 1fr 1fr;gap:8px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}.disc{animation:none!important}}
+
+/* planet intro */
+body.intro-on{overflow:hidden}
+.intro{position:fixed;inset:0;z-index:50;display:grid;place-items:center;overflow:hidden;color:#E9EBFF;
+  background:radial-gradient(ellipse at 50% 50%,#1A1F8C 0%,var(--space) 55%,#070940 100%);
+  padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(16px,env(safe-area-inset-left,0px));
+  transition:opacity .9s ease, visibility 0s linear .9s}
+.intro::before{content:"";position:absolute;width:190vmax;height:190vmax;left:50%;top:50%;margin:-95vmax 0 0 -95vmax;
+  background:url(planet.jpg) center/cover;border-radius:50%;filter:blur(60px) saturate(1.2);opacity:.38;
+  animation:spin 160s linear infinite reverse}
+.intro.gone{opacity:0;visibility:hidden;pointer-events:none}
+.intro .corner{position:absolute;top:calc(22px + env(safe-area-inset-top,0px));left:max(22px,env(safe-area-inset-left,0px));right:max(22px,env(safe-area-inset-right,0px));
+  display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+.intro .hint{position:absolute;bottom:calc(30px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:.7}
+.orbit{position:relative;width:min(520px,max(64vmin,76vw),70vh);aspect-ratio:1/1;max-width:100%;display:grid;place-items:center}
+.orbit::before,.orbit::after{content:"";position:absolute;pointer-events:none;inset:-7%;border-radius:50%;border:1px solid rgba(190,198,255,.22);transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .7s}
+.orbit::after{inset:-16%;border-style:dashed;border-color:rgba(190,198,255,.14);animation:spin 90s linear infinite}
+.planet{all:unset;cursor:pointer;position:relative;width:100%;height:100%;border-radius:50%;display:block;
+  box-shadow:0 0 0 1px rgba(160,170,255,.18),0 40px 120px -20px rgba(4,6,40,.9),0 0 90px 10px rgba(80,95,255,.25);
+  transition:transform .7s cubic-bezier(.2,.7,.2,1),box-shadow .7s}
+.planet img{width:100%;height:100%;border-radius:50%;display:block;animation:spin 60s linear infinite;transition:filter .7s;filter:brightness(1.08) saturate(1.1)}
+.planet::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.14),transparent 45%),radial-gradient(circle at 72% 80%,rgba(0,0,30,.22),transparent 60%)}
+.planet .enter{position:absolute;inset:0;display:grid;place-items:center;z-index:2;pointer-events:none}
+.planet .enter span{display:block;text-align:center;font-family:var(--display);font-weight:800;font-size:clamp(28px,6vmin,52px);letter-spacing:-.03em;color:#fff;
+  opacity:0;transform:translateY(10px);transition:opacity .5s .1s,transform .6s .1s cubic-bezier(.2,.7,.2,1);text-shadow:0 4px 30px rgba(0,0,40,.6)}
+.planet .enter small{display:block;text-align:center;font:500 11px var(--mono);letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin-top:6px}
+.orbit:hover .planet,.planet:focus-visible{transform:scale(1.05);box-shadow:0 0 0 1px rgba(190,198,255,.4),0 40px 120px -20px rgba(4,6,40,.9),0 0 140px 30px rgba(110,125,255,.45)}
+.orbit:hover .planet img,.planet:focus-visible img{animation-play-state:paused;filter:brightness(1.22) saturate(1.2)}
+.orbit:hover .planet .enter span,.planet:focus-visible .enter span{opacity:1;transform:none}
+.orbit:hover::before{transform:scale(1.12);opacity:0}
+.orbit:hover::after{animation-play-state:paused;transform:scale(.94)}
+.planet:focus-visible{outline:2px solid #B8BFFF;outline-offset:10px}
+.intro.entering .planet{transform:scale(7);transition:transform 1s cubic-bezier(.6,0,.2,1)}
+.intro.entering .orbit::before,.intro.entering .orbit::after,.intro.entering .corner,.intro.entering .hint{opacity:0;transition:opacity .3s}
+@media (hover:none){.planet .enter span{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.planet img,.intro::before,.orbit::after{animation:none!important}}
 </style>
 </head>
 <body>
 
 
+<div class="intro" id="intro" role="dialog" aria-label="Welcome">
+  <div class="corner"><span>Kunal Singh</span><span>Boston, MA</span></div>
+  <div class="orbit">
+    <button class="planet" id="planet" type="button" aria-label="Enter Kunal Singh's portfolio">
+      <img src="planet.jpg" width="840" height="840" alt="">
+      <span class="enter"><span>Enter<small>Product · Code · Music</small></span></span>
+    </button>
+  </div>
+  <div class="hint">Click the planet to enter</div>
+</div>
+
+
 <div class="wrap">
   <header class="top">
-    <a class="brand" href="#">kunal singh</a>
+    <a class="brand" href="#" id="brand">kunal singh</a>
     <nav aria-label="Sections">
       <a href="#work">Tracklist</a><a href="#music">Music</a><a href="#credits">Credits</a><a href="#contact">Contact</a>
     </nav>
@@ -492,6 +541,24 @@ footer{padding-block:28px 40px;color:var(--muted);font-size:13px;border-top:1px 
     try{navigator.clipboard.writeText(t).then(function(){b.textContent='Copied'},sel)}catch(e){sel()}
     setTimeout(function(){b.textContent='Copy'},1800);
   };
+})();
+</script>
+
+<script>
+(function(){
+  var intro=document.getElementById('intro'),planet=document.getElementById('planet'),brand=document.getElementById('brand');
+  var reduce=false;try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+  try{if(matchMedia('(hover: none)').matches)intro.querySelector('.hint').textContent='Tap the planet to enter';}catch(e){}
+  function open(){intro.hidden=false;intro.classList.remove('gone','entering');document.body.classList.add('intro-on');setTimeout(function(){planet.focus({preventScroll:true})},50);}
+  function enter(){
+    if(intro.classList.contains('entering'))return;
+    intro.classList.add('entering');
+    setTimeout(function(){intro.classList.add('gone');document.body.classList.remove('intro-on');window.scrollTo(0,0);},reduce?0:650);
+  }
+  planet.addEventListener('click',enter);
+  document.addEventListener('keydown',function(e){if(!intro.classList.contains('gone')&&(e.key==='Enter'||e.key==='Escape'))enter();});
+  brand.addEventListener('click',function(e){e.preventDefault();open();});
+  if(location.hash&&location.hash.length>1){intro.classList.add('gone');}else{document.body.classList.add('intro-on');}
 })();
 </script>
 
