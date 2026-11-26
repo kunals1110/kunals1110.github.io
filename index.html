@@ -441,7 +441,7 @@ body.intro-on{overflow:hidden}
   <div class="shead">
     <div><div class="eyebrow">The creative side</div><h2>Music, the thing I make for fun</h2></div>
     <div style="display:grid;gap:14px;justify-items:start;max-width:44ch">
-      <p style="margin:0;color:var(--muted)">Outside of building things, I make music as kunal. It's the part of my life I'd do even if no one was watching, from the songs to the cover art to the little teasers. Turn on previews, then hover a cover to hear a bit.</p>
+      <p style="margin:0;color:var(--muted)">Outside of building things, I make music as kunal. It's the part of my life I'd do even if no one was watching, from the songs to the cover art to the little teasers. <span id="previewhint">Turn on previews, then hover a cover to hear a bit.</span></p>
       <div class="cta">
         <button type="button" class="btn soundbtn" id="soundbtn" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path class="w" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Turn on previews</span></button>
         <a class="btn primary" href="https://open.spotify.com/artist/6xAk05yujbnN3UCMq1rfHE" target="_blank" rel="noopener">Listen on Spotify <span class="mono">↗</span></a>
@@ -649,12 +649,13 @@ body.intro-on{overflow:hidden}
     if(audio.src){audio.muted=true;var p=audio.play();var done=function(){if(!cur)audio.pause();audio.muted=false;};if(p&&p.then)p.then(done,done);else done();}
   }
   sb.addEventListener('click',unlock);
+  if(!hoverable){sb.hidden=true;var ph=document.getElementById('previewhint');if(ph)ph.textContent='Tap a cover to hear a bit.';}
   // Fetch 30-second previews and backup artwork from Apple's public lookup (JSONP, runs in the visitor's browser)
   cards.forEach(function(c,i){
     var cb='__rlz'+i;window[cb]=function(d){
       var r=(d&&d.results||[]).filter(function(x){return x.wrapperType==='track'&&x.previewUrl})[0]
         ||(d&&d.results||[]).filter(function(x){return x.previewUrl})[0];
-      if(r&&r.previewUrl){c.dataset.preview=r.previewUrl;if(hoverable)c.querySelector('.rstate').textContent=unlocked?'Hover to preview':'Turn on previews to hear it';}
+      if(r&&r.previewUrl){c.dataset.preview=r.previewUrl;c.querySelector('.rstate').textContent=!hoverable?'Tap the cover to preview':(unlocked?'Hover to preview':'Turn on previews to hear it');}
       var art=(d&&d.results||[]).filter(function(x){return x.artworkUrl100})[0];
       if(art)c.dataset.art=art.artworkUrl100.replace('100x100bb','600x600bb');
       if(!c.dataset.preview)c.querySelector('.rstate').textContent=hoverable?'Click to listen':'Tap to listen';
@@ -666,20 +667,23 @@ body.intro-on{overflow:hidden}
     document.body.appendChild(sc);
     var img=c.querySelector('.cover img');
     img.addEventListener('error',function(){if(c.dataset.art&&img.src!==c.dataset.art)img.src=c.dataset.art;});
-    if(!hoverable)c.querySelector('.rstate').textContent='Tap to listen';
+    if(!hoverable)c.querySelector('.rstate').textContent='Loading preview';
   });
-  function fade(to,done){clearInterval(fadeT);fadeT=setInterval(function(){
+  function fade(to,done){clearInterval(fadeT);
+    // phones (iOS) ignore volume changes, so skip the fade there
+    if(!hoverable){try{audio.volume=to}catch(e){}done&&done();return;}
+    var n=0;fadeT=setInterval(function(){if(++n>20){clearInterval(fadeT);try{audio.volume=to}catch(e){}done&&done();return;}
     var v=audio.volume+(to>audio.volume?.08:-.08);
     if((to>audio.volume&&v>=to)||(to<=audio.volume&&v<=to)){audio.volume=Math.max(0,Math.min(1,to));clearInterval(fadeT);done&&done();}else audio.volume=Math.max(0,Math.min(1,v));
   },40);}
   function stop(c){
     c.classList.remove('on');c.querySelector('.vinyl').classList.remove('spin');c.querySelector('.pbar b').style.width='0';
-    c.querySelector('.rstate').textContent=c.dataset.preview?(unlocked?'Hover to preview':'Turn on previews to hear it'):'Click to listen';
+    c.querySelector('.rstate').textContent=c.dataset.preview?(!hoverable?'Tap the cover to preview':(unlocked?'Hover to preview':'Turn on previews to hear it')):(hoverable?'Click to listen':'Tap to listen');
     if(cur===c){fade(0,function(){audio.pause()});cur=null;}
   }
   function start(c){
-    if(!hoverable||!c.dataset.preview)return;
-    if(!unlocked){c.querySelector('.rstate').textContent='Turn on previews first';sb.classList.add('nudge');setTimeout(function(){sb.classList.remove('nudge')},700);return;}
+    if(!c.dataset.preview)return;
+    if(hoverable&&!unlocked){c.querySelector('.rstate').textContent='Turn on previews first';sb.classList.add('nudge');setTimeout(function(){sb.classList.remove('nudge')},700);return;}
     if(cur&&cur!==c)stop(cur);
     cur=c;c.classList.add('on');c.querySelector('.vinyl').classList.add('spin');
     c.querySelector('.rstate').textContent='Now previewing';
@@ -689,11 +693,17 @@ body.intro-on{overflow:hidden}
     fade(.8);
   }
   cards.forEach(function(c){
-    c.addEventListener('mouseenter',function(){start(c)});
-    c.addEventListener('mouseleave',function(){stop(c)});
-    c.addEventListener('focus',function(){start(c)});
-    c.addEventListener('blur',function(){stop(c)});
-    c.addEventListener('click',function(){if(cur)stop(cur)});
+    c.addEventListener('mouseenter',function(){if(hoverable)start(c)});
+    c.addEventListener('mouseleave',function(){if(hoverable)stop(c)});
+    c.addEventListener('focus',function(){if(hoverable)start(c)});
+    c.addEventListener('blur',function(){if(hoverable)stop(c)});
+    c.addEventListener('click',function(e){
+      if(hoverable){if(cur)stop(cur);return;}
+      // phones: the Listen button opens too.fm, a tap anywhere else plays or stops the preview
+      if(e.target.closest('.listen')||!c.dataset.preview){if(cur)stop(cur);return;}
+      e.preventDefault();
+      if(cur===c)stop(c);else start(c);
+    });
   });
   audio.addEventListener('timeupdate',function(){if(!cur)return;var d=audio.duration||30;cur.querySelector('.pbar b').style.width=(audio.currentTime/d*100)+'%';});
   audio.addEventListener('ended',function(){if(cur)stop(cur)});
