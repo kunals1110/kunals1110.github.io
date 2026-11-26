@@ -126,7 +126,7 @@ section{padding-block:60px;border-top:1px solid var(--line)}
 
 .withlogo{display:flex;align-items:center;gap:12px}
 .withlogo .logo{width:40px;height:40px;border-radius:10px;flex:none;display:block}
-.withlogo .logo.wide{width:80px;background:#000;object-fit:cover}
+.withlogo .logo.wide{width:80px;border-radius:0;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(10,14,60,.35))}
 .demo{all:unset;cursor:pointer;position:relative;display:block;width:min(100%,560px);aspect-ratio:16/9;max-width:100%;margin-top:14px;border-radius:12px;overflow:hidden;background:var(--space);box-shadow:0 18px 40px -26px rgba(5,8,40,.7)}
 .demo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.7,.2,1),filter .5s}
 .demo:hover img{transform:scale(1.03);filter:brightness(.85)}
@@ -337,7 +337,7 @@ body.intro-on{overflow:hidden}
     <article class="track" data-t="ai eng product" data-name="Postmark">
       <div class="no">02</div>
       <div class="body">
-        <div class="ttl withlogo"><img class="logo wide" src="postmark.jpg" width="80" height="40" alt=""><a href="https://github.com/fengjason332-alt/postmark" target="_blank" rel="noopener">Postmark</a></div>
+        <div class="ttl withlogo"><img class="logo wide" src="postmark.png" width="80" height="40" alt=""><a href="https://github.com/fengjason332-alt/postmark" target="_blank" rel="noopener">Postmark</a></div>
         <div class="org">Private travel journal globe · DS+X Hackathon · Python, CLIP, GeoNames, JavaScript</div>
         <ul>
           <li>Recovered <span class="stat">91%</span> of hidden GPS locations at about 2 m median error by building gap-filling for an on-device app, co-built with a team of 3, that turns camera-roll metadata into past trips on a 3D globe.</li>
