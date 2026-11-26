@@ -139,6 +139,7 @@ section{padding-block:60px;border-top:1px solid var(--line)}
 .demo iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .soundbtn{cursor:pointer;color:var(--ink);font:inherit;font-weight:600;font-size:14.5px}
 .soundbtn svg{width:18px;height:18px;fill:currentColor}
+.soundbtn span{display:inline-block;min-width:6.6em;text-align:left}
 .soundbtn .w{opacity:.35}
 .soundbtn[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .soundbtn[aria-pressed="true"] .w{opacity:1}
@@ -454,7 +455,7 @@ body.intro-on{overflow:hidden}
     <div><div class="eyebrow">The creative side</div><h2>by kunal</h2></div>
     <p class="mblurb">In my free time, I make music as kunal. It's the part of my life that makes me who I am, from the songs to the cover art to the little teasers. <span id="previewhint">If you turn on previews, you can hover a cover to hear a bit of my work.</span></p>
     <div class="cta mcta">
-        <button type="button" class="btn soundbtn" id="soundbtn" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path class="w" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Turn on previews</span></button>
+        <button type="button" class="btn soundbtn" id="soundbtn" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path class="w" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Previews off</span></button>
         <a class="btn primary" href="https://open.spotify.com/artist/6xAk05yujbnN3UCMq1rfHE" target="_blank" rel="noopener">Listen on Spotify <span class="mono">↗</span></a>
       </div>
   </div>
@@ -651,7 +652,7 @@ body.intro-on{overflow:hidden}
   var sb=document.getElementById('soundbtn');
   function setUnlocked(){unlocked=true;sb.setAttribute('aria-pressed','true');sb.querySelector('span').textContent='Previews on';cards.forEach(function(c){if(c.dataset.preview)c.querySelector('.rstate').textContent='Hover to preview';});}
   function unlock(){
-    if(unlocked){unlocked=false;sb.setAttribute('aria-pressed','false');sb.querySelector('span').textContent='Turn on previews';if(cur)stop(cur);return;}
+    if(unlocked){unlocked=false;sb.setAttribute('aria-pressed','false');sb.querySelector('span').textContent='Previews off';if(cur)stop(cur);return;}
     setUnlocked();
     // prime the audio element inside this click so Safari allows later hover playback
     var first=cards.filter(function(c){return c.dataset.preview})[0];
@@ -699,7 +700,7 @@ body.intro-on{overflow:hidden}
     c.querySelector('.rstate').textContent='Now previewing';
     if(audio.src!==c.dataset.preview){audio.src=c.dataset.preview;audio.currentTime=0;}
     audio.volume=0;
-    var p=audio.play();if(p&&p.catch)p.catch(function(){c.querySelector('.rstate').textContent='Turn on previews first';unlocked=false;sb.setAttribute('aria-pressed','false');sb.querySelector('span').textContent='Turn on previews';});
+    var p=audio.play();if(p&&p.catch)p.catch(function(){c.querySelector('.rstate').textContent='Turn on previews first';unlocked=false;sb.setAttribute('aria-pressed','false');sb.querySelector('span').textContent='Previews off';});
     fade(.8);
   }
   cards.forEach(function(c){
