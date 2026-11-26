@@ -650,16 +650,28 @@ body.intro-on{overflow:hidden}
   var hoverable=false;try{hoverable=matchMedia('(hover: hover)').matches}catch(e){}
   var audio=new Audio();audio.preload='none';var cur=null,fadeT=null,unlocked=false;
   var sb=document.getElementById('soundbtn');
-  function setUnlocked(){unlocked=true;sb.setAttribute('aria-pressed','true');sb.querySelector('span').textContent='Previews on';cards.forEach(function(c){if(c.dataset.preview)c.querySelector('.rstate').textContent='Hover to preview';});}
-  function unlock(){
-    if(unlocked){unlocked=false;sb.setAttribute('aria-pressed','false');sb.querySelector('span').textContent='Previews off';if(cur)stop(cur);return;}
-    setUnlocked();
-    // prime the audio element inside this click so Safari allows later hover playback
+  function setUnlocked(){unlocked=true;sb.setAttribute('aria-pressed','true');sb.querySelector('span').textContent='Previews on';var ph=document.getElementById('previewhint');if(ph&&hoverable)ph.textContent='Hover a cover to hear a bit of my work.';cards.forEach(function(c){if(c.dataset.preview)c.querySelector('.rstate').textContent='Hover to preview';});}
+  var userOff=false;
+  var SILENT='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
+  // play something silently inside a click so every browser (Safari too) allows hover playback later
+  function prime(){
     var first=cards.filter(function(c){return c.dataset.preview})[0];
-    if(first&&!audio.src){audio.src=first.dataset.preview;}
-    if(audio.src){audio.muted=true;var p=audio.play();var done=function(){if(!cur)audio.pause();audio.muted=false;};if(p&&p.then)p.then(done,done);else done();}
+    if(!audio.src)audio.src=first?first.dataset.preview:SILENT;
+    audio.muted=true;var p;try{p=audio.play()}catch(e){}
+    var done=function(){if(!cur)audio.pause();audio.muted=false;};
+    if(p&&p.then)p.then(done,done);else done();
   }
-  sb.addEventListener('click',unlock);
+  function turnOn(){setUnlocked();prime();}
+  function turnOff(){unlocked=false;sb.setAttribute('aria-pressed','false');sb.querySelector('span').textContent='Previews off';var ph=document.getElementById('previewhint');if(ph)ph.textContent='If you turn on previews, you can hover a cover to hear a bit of my work.';if(cur)stop(cur);}
+  sb.addEventListener('click',function(){if(unlocked){userOff=true;turnOff();}else{userOff=false;turnOn();}});
+  // the first click or key press anywhere on the page turns previews on, unless the visitor switched them off
+  function auto(e){
+    if(!hoverable||unlocked||userOff)return;
+    if(e.target&&e.target.closest&&e.target.closest('#soundbtn'))return;
+    turnOn();
+  }
+  document.addEventListener('pointerdown',auto,true);
+  document.addEventListener('keydown',auto,true);
   if(!hoverable){sb.hidden=true;var ph=document.getElementById('previewhint');if(ph)ph.textContent='Tap a cover to hear a bit of my work.';}
   // Fetch 30-second previews and backup artwork from Apple's public lookup (JSONP, runs in the visitor's browser)
   cards.forEach(function(c,i){
