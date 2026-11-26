@@ -154,13 +154,19 @@ section{padding-block:60px;border-top:1px solid var(--line)}
 .releases{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
 .rlz{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit;min-width:0;overflow:hidden;transition:border-color .3s}
 .rlz:hover,.rlz:focus-visible{border-color:var(--accent)}
-.stage{position:relative;aspect-ratio:1/1;max-width:100%;width:82%}
+.stage{position:relative;aspect-ratio:1/1;max-width:100%;width:62%}
 .cover{position:absolute;inset:0;border-radius:6px;overflow:hidden;z-index:2;background:var(--space);box-shadow:0 24px 40px -24px rgba(5,8,40,.7);transition:transform .6s cubic-bezier(.2,.7,.2,1)}
 .cover img{width:100%;height:100%;object-fit:cover;display:block}
-.vinyl{position:absolute;inset:3%;border-radius:50%;z-index:1;transition:transform .6s cubic-bezier(.2,.7,.2,1);
-  background:radial-gradient(circle,#E9EBFF 0 3%,transparent 3.5%),radial-gradient(circle,var(--accent) 0 17%,#07081c 17.5% 19%,transparent 19.5%),repeating-radial-gradient(circle,#07081c 0 2px,#1a1d3a 2px 3px)}
-.vinyl.spin{animation:spin 2.2s linear infinite}
-.rlz:hover .vinyl,.rlz:focus-visible .vinyl,.rlz.on .vinyl{transform:translateX(22%)}
+.vinyl{position:absolute;inset:3%;border-radius:50%;z-index:1;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.platter{position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 20deg,rgba(255,255,255,.16),transparent 10%,transparent 40%,rgba(255,255,255,.12) 50%,transparent 60%,transparent 90%,rgba(255,255,255,.16)),
+  repeating-radial-gradient(circle,#07081c 0 2px,#1a1d3a 2px 3px)}
+.lbl{position:absolute;inset:32%;border-radius:50%;background:var(--accent) center/cover no-repeat;box-shadow:0 0 0 2px #07081c}
+.lbl::before{content:"";position:absolute;left:50%;top:50%;width:9%;height:9%;margin:-4.5% 0 0 -4.5%;border-radius:50%;background:#E9EBFF}
+.lbl::after{content:"";position:absolute;left:50%;top:9%;width:7%;height:7%;margin-left:-3.5%;border-radius:50%;background:rgba(255,255,255,.85)}
+.sheen{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.14),transparent 40%,transparent 60%,rgba(255,255,255,.06))}
+.vinyl.spin .platter{animation:spin 1.8s linear infinite}
+.rlz:hover .vinyl,.rlz:focus-visible .vinyl,.rlz.on .vinyl{transform:translateX(50%)}
 .rlz:hover .cover,.rlz:focus-visible .cover{transform:translateX(-3%) rotate(-1.5deg)}
 .rmeta{display:flex;justify-content:space-between;align-items:end;gap:12px;min-width:0}
 .rmeta>div{min-width:0}
@@ -176,7 +182,7 @@ section{padding-block:60px;border-top:1px solid var(--line)}
 .rlz.on .rstate{color:var(--accent)}
 .pbar{height:3px;border-radius:2px;background:var(--line);overflow:hidden}
 .pbar b{display:block;height:100%;width:0;background:var(--accent)}
-@media (max-width:700px){.releases{grid-template-columns:1fr}.stage{width:78%}}
+@media (max-width:700px){.releases{grid-template-columns:1fr}.stage{width:64%}}
 /* artist side */
 .artist{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .artist>*{min-width:0}
@@ -275,7 +281,7 @@ body.intro-on{overflow:hidden}
 .intro.entering .orbit::before,.intro.entering .orbit::after,.intro.entering .corner,.intro.entering .hint{opacity:0;transition:opacity .3s}
 @media (hover:none){.planet .enter span{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}.planet img,.intro::before,.orbit::after,.vinyl.spin,.rlz.on .eq i{animation:none!important}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.planet img,.intro::before,.orbit::after,.vinyl.spin .platter,.rlz.on .eq i{animation:none!important}}
 </style>
 </head>
 <body>
@@ -454,7 +460,7 @@ body.intro-on{overflow:hidden}
   </div>
   <div class="releases" id="releases">
     <a class="rlz" href="https://too.fm/nqw0kdx" target="_blank" rel="noopener" data-apple="6793850056" data-title="Leaving Me Out">
-      <div class="stage"><div class="vinyl"></div><div class="cover"><img src="https://imagestore.ffm.to/link/61812daf250000e677afe7f2/6a60336241000030007a9f02_2ab857d239e33c7db06acd9af92199c8.jpeg" alt="Leaving Me Out cover art" loading="lazy" width="600" height="600"></div></div>
+      <div class="stage"><div class="vinyl"><div class="platter"><span class="lbl" style="background-image:url(https://imagestore.ffm.to/link/61812daf250000e677afe7f2/6a60336241000030007a9f02_2ab857d239e33c7db06acd9af92199c8.jpeg)"></span></div><span class="sheen"></span></div><div class="cover"><img src="https://imagestore.ffm.to/link/61812daf250000e677afe7f2/6a60336241000030007a9f02_2ab857d239e33c7db06acd9af92199c8.jpeg" alt="Leaving Me Out cover art" loading="lazy" width="600" height="600"></div></div>
       <div class="pbar"><b></b></div>
       <div class="rmeta">
         <div><div class="rstate">Loading preview</div><h3>Leaving Me Out</h3><span class="mono">kunal · Single · 3:34</span></div>
@@ -462,7 +468,7 @@ body.intro-on{overflow:hidden}
       </div>
     </a>
     <a class="rlz" href="https://too.fm/8j6ydyj" target="_blank" rel="noopener" data-apple="1890607464" data-title="See You">
-      <div class="stage"><div class="vinyl"></div><div class="cover"><img src="https://imagestore.ffm.to/link/61812daf250000e677afe7f2/69cd96384100004b00291cc0_173f6b51d485555f5c909ec0df6071d8.jpeg" alt="See You cover art" loading="lazy" width="600" height="600"></div></div>
+      <div class="stage"><div class="vinyl"><div class="platter"><span class="lbl" style="background-image:url(https://imagestore.ffm.to/link/61812daf250000e677afe7f2/69cd96384100004b00291cc0_173f6b51d485555f5c909ec0df6071d8.jpeg)"></span></div><span class="sheen"></span></div><div class="cover"><img src="https://imagestore.ffm.to/link/61812daf250000e677afe7f2/69cd96384100004b00291cc0_173f6b51d485555f5c909ec0df6071d8.jpeg" alt="See You cover art" loading="lazy" width="600" height="600"></div></div>
       <div class="pbar"><b></b></div>
       <div class="rmeta">
         <div><div class="rstate">Loading preview</div><h3>See You</h3><span class="mono">kunal · Single</span></div>
@@ -670,7 +676,7 @@ body.intro-on{overflow:hidden}
     sc.onerror=function(){c.querySelector('.rstate').textContent='Click to listen'};
     document.body.appendChild(sc);
     var img=c.querySelector('.cover img');
-    img.addEventListener('error',function(){if(c.dataset.art&&img.src!==c.dataset.art)img.src=c.dataset.art;});
+    img.addEventListener('error',function(){if(c.dataset.art&&img.src!==c.dataset.art){img.src=c.dataset.art;c.querySelector('.lbl').style.backgroundImage='url('+c.dataset.art+')';}});
     if(!hoverable)c.querySelector('.rstate').textContent='Loading preview';
   });
   function fade(to,done){clearInterval(fadeT);
