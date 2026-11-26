@@ -124,6 +124,17 @@ section{padding-block:60px;border-top:1px solid var(--line)}
 .sub span{font-size:13.5px;padding:4px 10px;border-radius:7px;background:var(--sunk)}
 .sub b{font-weight:600}
 
+.withlogo{display:flex;align-items:center;gap:12px}
+.withlogo .logo{width:40px;height:40px;border-radius:10px;flex:none;display:block}
+.demo{all:unset;cursor:pointer;position:relative;display:block;width:min(100%,560px);aspect-ratio:16/9;max-width:100%;margin-top:14px;border-radius:12px;overflow:hidden;background:var(--space);box-shadow:0 18px 40px -26px rgba(5,8,40,.7)}
+.demo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.7,.2,1),filter .5s}
+.demo:hover img{transform:scale(1.03);filter:brightness(.85)}
+.demo:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.playbtn{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;box-shadow:0 8px 30px rgba(0,0,30,.35);transition:transform .3s}
+.playbtn svg{width:26px;height:26px;fill:#10132B;margin-left:3px}
+.demo:hover .playbtn{transform:scale(1.08)}
+.demolabel{position:absolute;left:12px;bottom:12px;font:500 12px var(--mono);color:#fff;background:rgba(10,12,40,.7);padding:5px 9px;border-radius:6px}
+.demo iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 /* releases */
 .releases{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
 .rlz{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit;min-width:0;overflow:hidden;transition:border-color .3s}
@@ -271,7 +282,7 @@ body.intro-on{overflow:hidden}
   <header class="top">
     <a class="brand" href="#" id="brand">kunal singh</a>
     <nav aria-label="Sections">
-      <a href="#work">Tracklist</a><a href="#music">Music</a><a href="#credits">Credits</a><a href="#contact">Contact</a>
+      <a href="#work">Work</a><a href="#music">Music</a><a href="#credits">Credits</a><a href="#contact">Contact</a>
     </nav>
   </header>
 
@@ -281,7 +292,7 @@ body.intro-on{overflow:hidden}
       <h1>Kunal Singh</h1>
       <p class="lede">Bringing creativity into product and business.</p>
       <div class="cta">
-        <a class="btn primary" href="#work">See the tracklist</a>
+        <a class="btn primary" href="#work">See my work</a>
         <a class="btn" href="#contact">Get in touch</a>
       </div>
     </div>
@@ -297,7 +308,7 @@ body.intro-on{overflow:hidden}
 
 <section id="work"><div class="wrap">
   <div class="shead">
-    <div><div class="eyebrow">Tracklist</div><h2>Projects &amp; experience</h2></div>
+    <div><h2>Projects &amp; experience</h2></div>
     <p>Every track is split into six stems. Solo one to see only that side of my work, or mute what you don't need.</p>
   </div>
 
@@ -309,14 +320,14 @@ body.intro-on{overflow:hidden}
     <article class="track" data-t="eng ai music product" data-name="SUFOLI">
       <div class="no">01</div>
       <div class="body">
-        <div class="ttl"><a href="https://github.com/SUFOLI" target="_blank" rel="noopener">SUFOLI</a></div>
+        <div class="ttl withlogo"><img class="logo" src="sufoli.png" width="40" height="40" alt=""><a href="https://github.com/SUFOLI" target="_blank" rel="noopener">SUFOLI</a></div>
         <div class="org">Local AI &amp; file tools for macOS · Electron, Node.js, Swift, Python, PyTorch, FFmpeg</div>
         <ul>
           <li>Kept all <b>8 private-beta users</b> active daily by shipping on-device macOS file tools and iterating on their feedback.</li>
           <li><a href="https://github.com/SUFOLI/stemify" target="_blank" rel="noopener"><b>Stemify</b></a>: offline music splitter that separates any song into 6 stems (vocals, drums, bass, and more) with Meta's Demucs model. Cut processing time <span class="stat">57%</span> by optimizing the model.</li>
           <li><a href="https://github.com/SUFOLI/dragify" target="_blank" rel="noopener"><b>Dragify</b></a>: on-device converter for 35+ formats. Prioritized and shipped size presets after a survey showed beta testers wanted control over file size.</li>
         </ul>
-        <div class="sub"><span><b>8/8</b> beta users active daily</span><span><b>57%</b> faster</span><span><b>35+</b> formats</span></div>
+        <div class="sub"><span><b>57%</b> faster</span><span><b>35+</b> formats</span></div>
         <div class="tags" data-tags></div>
       </div>
       <div class="when">Aug 2026 – Now</div>
@@ -331,6 +342,11 @@ body.intro-on{overflow:hidden}
           <li>Recovered <span class="stat">91%</span> of hidden GPS locations at about 2 m median error by building gap-filling for an on-device app, co-built with a team of 3, that turns camera-roll metadata into past trips on a 3D globe.</li>
           <li>Owned validation, setting precision, recall, and F1 as success metrics to benchmark trip detection against a baseline.</li>
         </ul>
+        <button type="button" class="demo" data-yt="WG_hPus2VTQ" aria-label="Play the Postmark demo video">
+          <img src="https://i.ytimg.com/vi/WG_hPus2VTQ/hqdefault.jpg" alt="" loading="lazy" width="480" height="360">
+          <span class="playbtn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+          <span class="demolabel">Watch the demo</span>
+        </button>
         <div class="sub"><span><b>91%</b> locations recovered</span><span><b>~2 m</b> median error</span><span><b>0</b> uploads</span></div>
         <div class="tags" data-tags></div>
       </div>
@@ -602,7 +618,7 @@ body.intro-on{overflow:hidden}
   planet.addEventListener('click',enter);
   document.addEventListener('keydown',function(e){if(!intro.classList.contains('gone')&&(e.key==='Enter'||e.key==='Escape'))enter();});
   brand.addEventListener('click',function(e){e.preventDefault();open();});
-  if(location.hash&&location.hash.length>1){intro.classList.add('gone');}else{document.body.classList.add('intro-on');}
+  if(location.hash&&location.hash.length>1){intro.classList.add('gone');intro.hidden=true;}else{document.body.classList.add('intro-on');}
 })();
 </script>
 
@@ -660,6 +676,18 @@ body.intro-on{overflow:hidden}
   audio.addEventListener('ended',function(){if(cur)stop(cur)});
   document.addEventListener('visibilitychange',function(){if(document.hidden&&cur)stop(cur)});
 })();
+</script>
+
+<script>
+[].forEach.call(document.querySelectorAll('.demo'),function(b){
+  b.addEventListener('click',function(){
+    if(b.querySelector('iframe'))return;
+    var f=document.createElement('iframe');
+    f.src='https://www.youtube-nocookie.com/embed/'+b.dataset.yt+'?autoplay=1&rel=0';
+    f.title='Postmark demo video';f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;
+    b.innerHTML='';b.appendChild(f);b.style.cursor='default';b.removeAttribute('aria-label');
+  });
+});
 </script>
 
 </body>
